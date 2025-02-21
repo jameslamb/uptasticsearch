@@ -91,6 +91,7 @@ get_fields <- function(es_host
             verb = "GET"
             , url = sprintf("%s/_cat/indices?format=json", es_url)
             , body = NULL
+            , add_json_headers = TRUE
         )
         indexDT <- data.table::as.data.table(
             jsonlite::fromJSON(
@@ -112,6 +113,7 @@ get_fields <- function(es_host
         verb = "GET"
         , url = es_url
         , body = NULL
+        , add_json_headers = TRUE
     )
     resultContent <- .content(result, as = "parsed")
 
@@ -228,8 +230,11 @@ get_fields <- function(es_host
         verb = "GET"
         , url = url
         , body = NULL
+        , add_json_headers = FALSE
     )
     resultContent <- .content(result, as = "text")
+    
+    # TODO: probably need httr2::resp_has_body() here, to fix "Can't retrieve empty body"
 
     # NOTES:
     # - with Elasticsearch 1.7.2., this returns an empty array "[]"

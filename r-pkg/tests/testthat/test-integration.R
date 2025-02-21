@@ -72,6 +72,20 @@ futile.logger::flog.threshold(0)
 
     })
 
+    test_that("es_search raises an error on indices that do not exist", {
+        testthat::skip_on_cran()
+
+        expect_error({
+            outDT <- es_search(
+                es_host = "http://127.0.0.1:9200"
+                , es_index = "sparkly_unicorn"
+                , max_hits = 100
+                , size = 100
+            )
+        }, regexp = "HTTP 404 Not Found")
+
+    })
+
     test_that("es_search warns and readjusts size if max_hits less than 10000", {
         testthat::skip_on_cran()
 
@@ -216,6 +230,7 @@ futile.logger::flog.threshold(0)
                 , action
                 , alias_name
             )
+            , add_json_headers = TRUE
         )
         return(invisible(NULL))
     }

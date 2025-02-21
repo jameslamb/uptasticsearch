@@ -540,6 +540,7 @@ es_search <- function(es_host
         verb = "POST"
         , url = scroll_url
         , body = sprintf('{"scroll": "%s", "scroll_id": "%s"}', scroll, scroll_id)
+        , add_json_headers = TRUE
     )
     return(result)
 }
@@ -557,6 +558,7 @@ es_search <- function(es_host
         verb = "POST"
         , url = scroll_url
         , body = scroll_id
+        , add_json_headers = TRUE
     )
     return(result)
 }
@@ -632,6 +634,7 @@ es_search <- function(es_host
         verb = "GET"
         , url = es_host
         , body = NULL
+        , add_json_headers = TRUE
     )
 
     # Extract version number from the result
@@ -715,6 +718,7 @@ es_search <- function(es_host
         verb = "POST"
         , url = reqURL
         , body = query_body
+        , add_json_headers = TRUE
     )
     result <- .content(result, as = "text")
 

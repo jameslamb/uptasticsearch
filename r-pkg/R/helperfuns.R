@@ -36,7 +36,7 @@
 # [references] https://testthat.r-lib.org/reference/local_mocked_bindings.html#namespaced-calls
 #' @importFrom httr2 request req_body_raw req_headers req_method req_perform req_retry
 #' @importFrom httr2 resp_status
-.request <- function(verb, url, body) {
+.request <- function(verb, url, body, add_json_headers) {
 
     # prepare "request" object
     req <- httr2::req_method(
@@ -46,17 +46,21 @@
 
     # add headers
     #
-    # Why is this hard-coded instead of taking in a 'headers' argument?
+    # Why is this controlled by a boolean flag,
+    # instead of taking in a 'headers' argument?
     #
     # httr2::req_headers() does not accept a character vector or list,
     # only named arguments.
     #
-    # But no problem! Every HTTP request this project executes uses JSON.
-    req <- httr2::req_headers(
-        req
-        , Accept = "application/json"          # nolint[non_portable_path]
-        , `Content-Type` = "application/json"  # nolint[non_portable_path]
-    )
+    # And we can't pass JSON headers unconditionally, because it changes the format of
+    # the response from requests like 'GET /_cat/aliases'
+    if (isTRUE(add_json_headers)) {
+        req <- httr2::req_headers(
+            req
+            , Accept = "application/json"          # nolint[non_portable_path]
+            , `Content-Type` = "application/json"  # nolint[non_portable_path]
+        )
+    }
 
     # add body
     if (!is.null(body)) {
