@@ -24,7 +24,7 @@ Depends:
 Imports:
     data.table,
     futile.logger,
-    httr,
+    httr2,
     jsonlite,
     purrr,
     stringr,

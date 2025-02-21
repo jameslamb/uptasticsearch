@@ -90,7 +90,6 @@ get_fields <- function(es_host
         res <- .request(
             verb = "GET"
             , url = sprintf("%s/_cat/indices?format=json", es_url)
-            , headers = character()
             , body = NULL
         )
         indexDT <- data.table::as.data.table(
@@ -112,10 +111,8 @@ get_fields <- function(es_host
     result <- .request(
         verb = "GET"
         , url = es_url
-        , headers = c("Content-Type" = "application/json")  # nolint[non_portable_path]
         , body = NULL
     )
-    .stop_for_status(result)
     resultContent <- .content(result, as = "parsed")
 
     ######################### flatten the result ##############################
@@ -230,10 +227,8 @@ get_fields <- function(es_host
     result <- .request(
         verb = "GET"
         , url = url
-        , headers = c("Content-Type" = "application/json")  # nolint[non_portable_path]
         , body = NULL
     )
-    .stop_for_status(result)
     resultContent <- .content(result, as = "text")
 
     # NOTES:

@@ -42,9 +42,6 @@ test_that("get_fields works as expected when mocked", {
         `.request` = function(...) {
             return(NULL)
         },
-        `.stop_for_status` = function(...) {
-            return(NULL)
-        },
         {
             outDT <- get_fields(
                 es_host = "http://db.mycompany.com:9200"

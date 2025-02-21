@@ -488,7 +488,6 @@ es_search <- function(es_host
             , scroll = scroll
             , scroll_id = scroll_id
         )
-        .stop_for_status(result)
         resultJSON <- .content(result, as = "text")
 
         # Parse to JSON to get total number of documents + new scroll_id
@@ -540,7 +539,6 @@ es_search <- function(es_host
     result <- .request(
         verb = "POST"
         , url = scroll_url
-        , headers = c("Content-Type" = "application/json")  # nolint[non_portable_path]
         , body = sprintf('{"scroll": "%s", "scroll_id": "%s"}', scroll, scroll_id)
     )
     return(result)
@@ -558,7 +556,6 @@ es_search <- function(es_host
     result <- .request(
         verb = "POST"
         , url = scroll_url
-        , headers = c("Content-Type" = "application/json")  # nolint[non_portable_path]
         , body = scroll_id
     )
     return(result)
@@ -634,10 +631,8 @@ es_search <- function(es_host
     result <- .request(
         verb = "GET"
         , url = es_host
-        , headers = c("Content-Type" = "application/json")  # nolint[non_portable_path]
         , body = NULL
     )
-    .stop_for_status(result)
 
     # Extract version number from the result
     version <- .content(result, as = "parsed")[["version"]][["number"]]
@@ -719,10 +714,8 @@ es_search <- function(es_host
     result <- .request(
         verb = "POST"
         , url = reqURL
-        , headers = c("Content-Type" = "application/json")  # nolint[non_portable_path]
         , body = query_body
     )
-    .stop_for_status(result)
     result <- .content(result, as = "text")
 
     return(result)
